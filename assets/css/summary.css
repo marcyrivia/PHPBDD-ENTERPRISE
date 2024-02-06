@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background: #f5f5f5;
+    color: #333;
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+    margin-top: 20px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+.connexion {
+    margin-top: 20px;
+}
+
+button {
+    color: #06BF09;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #06BF09;
+}
