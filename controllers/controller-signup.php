@@ -73,16 +73,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($errors)) {
             // Instance d'une PDO 
             try {
-                $name_enterprise = $_POST['enterprise_name'];
+                $enterprise_name = $_POST['enterprise_name'];
                 $siret = $_POST['enterprise_siret'];
                 $adresse = $_POST['enterprise_adresse'];
                 $city = $_POST['enterprise_city'];
                 $zipcode = $_POST['enterprise_zipcode'];
-                $email = $_POST['enterprise_email'];
+                $enterprise_email = $_POST['enterprise_email'];
                 $password = $_POST['enterprise_password'];
 
                 var_dump($_POST);
-                Enterprise::create($name_enterprise,  $siret,   $adresse,  $city,  $zipcode,  $email,  $password);
+                Enterprise::create($name_enterprise,  $siret,   $adresse,  $city,  $zipcode,  $enterprise_email,  $password);
             } catch (PDOException $e) {
                 echo "Erreur : " . $e->getMessage();
                 die();

@@ -17,11 +17,11 @@
     <h2>Inscription</h2>
 
     <form action="controller-signup.php" method="POST" novalidate>
-        <label for="name_enterprise">Nom de votre entreprise:</label><br>
-        <input type="text" id="name_enterprise" name="enterprise_name" value="<?= isset($_POST['enterprise_name']) ? htmlspecialchars($_POST['enterprise_name']) : '' ?>">
+        <label for="enterprise_name">Nom de votre entreprise:</label><br>
+        <input type="text" id="enterprise_name" name="enterprise_name" value="<?= isset($_POST['enterprise_name']) ? htmlspecialchars($_POST['enterprise_name']) : '' ?>">
         <span class="error">
-            <?php if (isset($errors['name_enterprise'])) {
-                echo $errors['name_enterprise'];
+            <?php if (isset($errors['enterprise_name'])) {
+                echo $errors['enterprise_name'];
             } ?>
         </span><br><br>
 
