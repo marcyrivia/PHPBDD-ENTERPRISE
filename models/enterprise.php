@@ -139,7 +139,7 @@ class Enterprise
             $result = $query->fetch(PDO::FETCH_ASSOC);
 
             // on retourne le résultat
-            return $result;
+            return $result["user_count"];
         } catch (PDOException $e) {
             echo 'Erreur : ' . $e->getMessage();
             die();

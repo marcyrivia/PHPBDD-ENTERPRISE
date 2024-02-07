@@ -76,7 +76,7 @@
         </div>
         <div class="row">
             <div class="col s12 m6 l3">
-                <div class="card">Nombre d'utilisateurs: <?= $enterpriseStr  ?> </div>
+                <div class="card">Nombre d'utilisateurs: <?= $enterpriseCount  ?> </div>
             </div>
             <div class="col s12 m6 l3">
                 <div class="card">Utilisateurs actifs</div>

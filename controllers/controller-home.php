@@ -14,7 +14,6 @@ $enterprise_id = $_SESSION['enterprise']['enterprise_id'];
 // $defaultPic = $_SESSION['user']['user_default'];
 
 $enterpriseCount = Enterprise::countUsers($enterprise_id);
-$enterpriseStr = $enterpriseCount["user_count"];
 
 $trajetCount = Enterprise::countTrajets($enterprise_id);
 $trajetStr = $trajetCount["ride_count"];
