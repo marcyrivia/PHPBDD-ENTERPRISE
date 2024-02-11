@@ -1,94 +1,167 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css">
+    <title>Tableau de Bord</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         body {
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+            background-color: #f4f4f4;
         }
-        .navbar {
-            background-color: #3949ab;
+
+        .nav-wrapper {
+            background-color: #263238;
+        }
+
+        .nav-wrapper ul li a {
             color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
         }
-        .navbar h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .navbar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .navbar li {
-            margin-bottom: 10px;
-        }
-        .navbar a {
+
+        .side-nav {
+            width: 16rem;
+            background-color: #263238;
             color: #fff;
-            transition: color 0.3s;
+            padding-top: 20px;
         }
-        .navbar a:hover {
-            color: #ff0000;
+
+        .side-nav li a {
+            color: #fff;
+            padding: 16px 20px;
+            display: block;
         }
-        .container {
-            margin-top: 20px;
+
+        h4 {
+            color: #37474f;
         }
+
         .card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #3949ab;
-            font-size: 24px;
             margin-bottom: 20px;
+        }
+
+        .card .card-content {
+            padding: 24px;
+        }
+
+        .card .card-title {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .card .card-action a {
+            color: #fff;
+            font-weight: bold;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="navbar white-text">
-            <h1><?php echo $enterprise_name ?></h1>
-            <ul>
-                <li><?php echo $date ?></li>
-                <li><?php echo $enterprise_siret ?></li>
-                <li><?php echo $enterprise_adress ?></li>
-                <li><?php echo $enterprise_city ?></li>
-                <li><?php echo $enterprise_zipcode ?></li>
-                <li><?php echo $enterprise_email ?></li>
-                <li><a href="../controllers/controller-deconnect.php">Déconnexion</a></li>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Tableau de Bord</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#">Lien 1</a></li>
+                <li><a href="#">Lien 2</a></li>
+                <li><a href="#">Lien 3</a></li>
             </ul>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="sidenav sidenav-fixed">
+        <li class="center-align">Coordonnées de l'entreprise :</li>
+        <li>Nom : <?= $_SESSION['enterprise']['enterprise_name'] ?></li>
+        <li>Email : <?= $_SESSION['enterprise']['enterprise_email'] ?></li>
+        <li>Siret : <?= $_SESSION['enterprise']['enterprise_siret'] ?></li>
+        <li>Adresse : <?= $_SESSION['enterprise']['enterprise_adress'] ?></li>
+        <li>Code postal : <?= $_SESSION['enterprise']['enterprise_zipcode'] ?></li>
+        <li>Ville : <?= $_SESSION['enterprise']['enterprise_city'] ?></li>
+        <li><a href="../controllers/controller-deconnect.php"> Déconnexion </a></li>
+    </ul>
+
+    <div class="container">
+        <h4 class="center-align">Bienvenue sur votre tableau de bord</h4>
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="card blue darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Total des utilisateurs</span>
+                        <p>Nombre d'utilisateurs : <?= Entreprise::countUsers($_SESSION['enterprise']['enterprise_id']) ?></p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="white-text">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card deep-purple darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Total des utilisateurs actifs</span>
+                        <p>Utilisateurs actifs : <?= Entreprise::countActifsUsers($_SESSION['enterprise']['enterprise_id']) ?></p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="white-text">Détails</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card purple darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Total des trajets</span>
+                        <p>Total des trajets créés : <?= Entreprise::countTotalTrajets($_SESSION['enterprise']['enterprise_id']) ?></p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="white-text">Détails</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card teal darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">Les 5 derniers utilisateurs</span>
+                        <?php foreach (Entreprise::lastFiveUsers($_SESSION['enterprise']['enterprise_id']) as $user): ?>
+                        <p> <?= $user['user_pseudo'] ?> </p>
+                        <img src="http://PHPBDD.test/assets/img/<?= $user['user_photo']; ?>" alt="Photo de profil">
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="white-text">Détails</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m6">
+                <div class="card brown">
+                    <div class="card-content white-text">
+                        <span class="card-title">Stats Hebdo (à venir)</span>
+                        <p>À venir...</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="white-text">Détails</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col s12">
-                <h2>Tableau de bord</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12 m6 l3">
-                <div class="card">Nombre d'utilisateurs: <?= $enterpriseCount  ?> </div>
-            </div>
-            <div class="col s12 m6 l3">
-                <div class="card">Utilisateurs actifs</div>
-            </div>
-            <div class="col s12 m6 l3">
-                <div class="card">Nombre de trajets : <?= $trajetStr ?> </div>
-            </div>
-            <div class="col s12 m6 l3">
-                <div class="card">Statistique hebdomadaire</div>
+                <div class="card light-blue darken-4">
+                    <div class="card-content white-text">
+                        <span class="card-title">Total des trajets</span>
+                        <p>Aperçu du total trajets...</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="#" class="white-text">Détails</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Materialize JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+
 </html>
