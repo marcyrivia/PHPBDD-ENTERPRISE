@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -135,9 +135,13 @@
                         </div>
                     </div>
 
+                   <div class="g-recaptcha" data-sitekey="6LeSlnApAAAAAMNaX29qrL2K9bOFEH4KpRaglqQ6"></div>
+                   <br/>
+
+
                     <div class="row">
                         <div class="input-field col s12">
-                            <button class="btn waves-effect waves-light" type="submit">S'enregistrer</button>
+                            <button class="btn waves-effect waves-light" name="submit" type="submit">S'enregistrer</button>
                             <a href="../controllers/controller-signin.php" class="btn waves-effect waves-light">Se connecter</a>
                         </div>
                     </div>

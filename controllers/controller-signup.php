@@ -2,7 +2,7 @@
 // j'appelle ma config et mon utilisateur
 require_once '../config/config.php';
 require_once "../models/enterprise.php";
-
+require_once"../captcha/autoload.php";
 session_start();
 
 // Vérification des données postées depuis le formulaire
@@ -65,6 +65,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_password = $_POST["confirm_password"];
     if (empty($enterprise_password) || strlen($enterprise_password) < 8 || $enterprise_password !== $confirm_password) {
         $errors['enterprise_password'] = "Le mot de passe doit comporter au moins 8 caractères et correspondre.";
+    }
+
+    //Verification captcha
+    if(isset($_POST["submit"])) {
+        $recaptcha = new \ReCaptcha\ReCaptcha("6LeSlnApAAAAAC3uRrAVI6o_wQ02VFqihmkmIqAx");
+
+        $gRecaptchaResponse =  $_POST["g-recaptcha-response"];
+$resp = $recaptcha->setExpectedHostname('localhost')
+                  ->verify($gRecaptchaResponse, $remoteIp);
+if ($resp->isSuccess()) {
+    echo "success";
+} else {
+    $errors = $resp->getErrorCodes();
+    var_dump($errors);
+}
     }
 
 
