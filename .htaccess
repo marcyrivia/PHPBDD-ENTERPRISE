@@ -1,2 +1,3 @@
 Options -Indexes
-ErrorDocument 403 /http://PHPBDD-ENTERPRISE/error403.html
+ErrorDocument 403 http://phpbdd-enterprise.test/custom403.html
+ErrorDocument 404 http://phpbdd-enterprise.test/custom404.html

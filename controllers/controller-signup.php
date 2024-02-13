@@ -2,20 +2,24 @@
 // j'appelle ma config et mon utilisateur
 require_once '../config/config.php';
 require_once "../models/enterprise.php";
-require_once"../captcha/autoload.php";
+require_once "../captcha/autoload.php";
 session_start();
 
 // Vérification des données postées depuis le formulaire
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
 
+    $enterprise_name = $_POST['enterprise_name'];
     // Vérification du nom
     if (empty($_POST["enterprise_name"])) {
         $errors['enterprise_name'] = "Champs obligatoire.";
-    } else if (!preg_match("/^[a-zA-ZÀ-ÿ\-\d ]+$/", $_POST["enterprise_name"])) {
+    } else {
+     if (!preg_match("/^[a-zA-ZÀ-ÿ\-\d ]+$/", $_POST["enterprise_name"])) {
         $errors['enterprise_name'] = "Le nom est invalide.";
+    } else if (Entreprise::checkName($enterprise_name)){
+        $errors['enterprise_name'] = "Cette enterprise existe déjà.";
     }
-
+}
     // Vérification de l'adresse de l'entreprise
     if (empty($_POST["enterprise_adress"])) {
         $errors['enterprise_adress'] = "Champs obligatoire.";
@@ -27,17 +31,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Vérification de l'email
     if (empty($_POST["enterprise_email"])) {
         $errors['enterprise_email'] = "Champs obligatoire.";
-    } else if (!filter_var($_POST["enterprise_email"], FILTER_VALIDATE_EMAIL)) {
+    } else { 
+        if (!filter_var($_POST["enterprise_email"], FILTER_VALIDATE_EMAIL)) {
         $errors['enterprise_email'] = "L'adresse email est invalide.";
-    }
+         } else if (Entreprise::checkEmail($enterprise_email)){
+            $errors['enterprise_email'] = "Cette adresse maol existe déjà.";
+        }
+}
 
     // Vérification du SIRET
 
     if (empty($_POST["enterprise_siret"])) {
         $errors['enterprise_siret'] = "Champs obligatoire.";
-    } else if (!preg_match("/^[\d]+$/", $_POST["enterprise_siret"])) {
+    } else {
+
+    } if (!preg_match("/^[\d]+$/", $_POST["enterprise_siret"])) {
         $errors["enterprise_siret"] = "Le numéro SIRET est invalide";
-    } else if (strlen($_POST["enterprise_siret"]) !== 14) {
+    } else if (Entreprise::checkSiret($enterprise_siret)){
+        $errors['enterprise_siret'] = "Ce numéro de siret existe déjà";
+    }else if (strlen($_POST["enterprise_siret"]) !== 14) {
         $errors["enterprise_siret"] = "Le numéro SIRET doit comporter 14 caractères.";
     }
 
@@ -47,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['enterprise_zipcode'] = "Champs obligatoire.";
     } else if (!preg_match("/^\d{5}(?:-\d{4})?$/", $_POST["enterprise_zipcode"])) {
         $errors['enterprise_zipcode'] = "Le code postal est invalide.";
-    } else if (strlen($_POST["enterprise_zipcode"])!== 5) {
-        $errors ["enterprise_siret"] = "Le code postal doit comporter 5 caractères.";
+    } else if (strlen($_POST["enterprise_zipcode"]) !== 5) {
+        $errors["enterprise_siret"] = "Le code postal doit comporter 5 caractères.";
     }
 
     // Vérification de la ville de l'entreprise
@@ -68,18 +80,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     //Verification captcha
-    if(isset($_POST["submit"])) {
+    if (isset($_POST["submit"])) {
         $recaptcha = new \ReCaptcha\ReCaptcha("6LeSlnApAAAAAC3uRrAVI6o_wQ02VFqihmkmIqAx");
 
         $gRecaptchaResponse =  $_POST["g-recaptcha-response"];
-$resp = $recaptcha->setExpectedHostname('localhost')
-                  ->verify($gRecaptchaResponse, $remoteIp);
-if ($resp->isSuccess()) {
-    echo "success";
-} else {
-    $errors = $resp->getErrorCodes();
-    var_dump($errors);
-}
+        $resp = $recaptcha->setExpectedHostname('localhost')
+            ->verify($gRecaptchaResponse);
+        if ($resp->isSuccess()) {
+            echo "success";
+        } else {
+            $errors = $resp->getErrorCodes();
+            var_dump($errors);
+        }
     }
 
 

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="../assets/style/style.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body {
             background: rgb(76, 157, 255);
@@ -135,8 +136,8 @@
                         </div>
                     </div>
 
-                   <div class="g-recaptcha" data-sitekey="6LeSlnApAAAAAMNaX29qrL2K9bOFEH4KpRaglqQ6"></div>
-                   <br/>
+                    <div class="g-recaptcha" data-sitekey="6LeSlnApAAAAAMNaX29qrL2K9bOFEH4KpRaglqQ6"></div>
+                    <br />
 
 
                     <div class="row">

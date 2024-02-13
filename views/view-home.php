@@ -54,14 +54,42 @@
             color: #fff;
             font-weight: bold;
         }
+
+        /* Style pour rendre l'image centrée et responsive */
+        .user-image {
+            display: block;
+            margin: 0 auto; /* Centre l'image horizontalement */
+            width: 150px; /* Taille de l'image */
+            height: 150px; /* Taille de l'image */
+            object-fit: cover; /* Assure que l'image est coupée pour tenir dans le conteneur */
+            border-radius: 50%; /* Rendre l'image circulaire */
+        }
+        
+        /* Style pour positionner le pseudo au-dessus de l'image */
+        .user-pseudo {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* Ajout de marges et de paddings pour les cartes */
+        .card-content {
+            padding-top: 20px;
+        }
+        
+        .card-action {
+            padding-top: 0;
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
 
     <nav>
-        <div class="nav-wrapper">
+        <div class="nav-wrapper blue darken-2">
             <a href="#" class="brand-logo center">Tableau de Bord</a>
+            <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="#">Lien 1</a></li>
                 <li><a href="#">Lien 2</a></li>
@@ -124,8 +152,14 @@
                     <div class="card-content white-text">
                         <span class="card-title">Les 5 derniers utilisateurs</span>
                         <?php foreach (Entreprise::lastFiveUsers($_SESSION['enterprise']['enterprise_id']) as $user): ?>
-                        <p> <?= $user['user_pseudo'] ?> </p>
-                        <img src="http://PHPBDD.test/assets/img/<?= $user['user_photo']; ?>" alt="Photo de profil">
+                        <div class="row">
+                            <div class="col s12">
+                                <p class="user-pseudo"><?= $user['user_pseudo'] ?></p>
+                            </div>
+                            <div class="col s12">
+                                <img class="user-image" src="http://PHPBDD.test/assets/img/<?= $user['user_photo']; ?>" alt="Photo de profil">
+                            </div>
+                        </div>
                         <?php endforeach; ?>
                     </div>
                     <div class="card-action">
