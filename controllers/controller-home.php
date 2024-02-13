@@ -16,6 +16,8 @@ if (isset($_SESSION['enterprise'])) {
 
 
 
+
+
 include_once '../views/view-home.php';
 ?>
 

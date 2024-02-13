@@ -9,10 +9,13 @@
     <style>
         body {
             background-color: #f4f4f4;
+            padding-top: 50px; /* Ajout de marge pour le contenu sous la barre de navigation */
         }
 
         .nav-wrapper {
             background-color: #263238;
+            padding-left: 10px; /* Ajustement de la marge interne */
+            padding-right: 10px; /* Ajustement de la marge interne */
         }
 
         .nav-wrapper ul li a {
@@ -170,8 +173,16 @@
             <div class="col s12 m6">
                 <div class="card brown">
                     <div class="card-content white-text">
-                        <span class="card-title">Stats Hebdo (à venir)</span>
-                        <p>À venir...</p>
+                        <span class="card-title">5 derniers trajets</span>
+                        <?php foreach (Entreprise::lastFiveTrajets($_SESSION['enterprise']['enterprise_id']) as $ride): ?>
+                        <div class="row">
+                            <div class="col s12">
+                                <p class="user_pseudo"><?= $ride['user_pseudo'] ?></p>
+                                <p class="ride_date"><?= $ride['ride_date'] ?></p>
+                                <p class="ride_distance"><?= $ride['ride_distance'] ?>km</p>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
                     </div>
                     <div class="card-action">
                         <a href="#" class="white-text">Détails</a>

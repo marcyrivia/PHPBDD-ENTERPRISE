@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['enterprise_adress'] = "L'adresse est invalide.";
     }
 
-
+    $enterprise_email = $_POST['enterprise_email'];
     // Vérification de l'email
     if (empty($_POST["enterprise_email"])) {
         $errors['enterprise_email'] = "Champs obligatoire.";
@@ -40,6 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
     // Vérification du SIRET
+
+    $enterprise_siret = $_POST['enterprise_siret'];
 
     if (empty($_POST["enterprise_siret"])) {
         $errors['enterprise_siret'] = "Champs obligatoire.";
@@ -87,7 +89,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resp = $recaptcha->setExpectedHostname('localhost')
             ->verify($gRecaptchaResponse);
         if ($resp->isSuccess()) {
-            echo "success";
         } else {
             $errors = $resp->getErrorCodes();
             var_dump($errors);
@@ -115,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Erreur : " . $e->getMessage();
             die();
         }
-        include('../views/view-signup.php');
+        include('../views/view-summary.php');
         exit; // Arrêter l'exécution du script
     }
 }

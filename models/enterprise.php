@@ -39,7 +39,8 @@ class Entreprise
         }
     }
 
-    public static function checkName(string $enterprise_name){
+    public static function checkName(string $enterprise_name)
+    {
 
         try {
 
@@ -70,7 +71,8 @@ class Entreprise
         }
     }
 
-    public static function checkSiret(int $enterprise_siret){
+    public static function checkSiret(int $enterprise_siret)
+    {
 
         try {
 
@@ -101,7 +103,8 @@ class Entreprise
         }
     }
 
-    public static function checkEmail(string $enterprise_email){
+    public static function checkEmail(string $enterprise_email)
+    {
 
         try {
 
@@ -133,7 +136,8 @@ class Entreprise
     }
 
 
-    public static function checkEntrepriseExist($enterprise_email): bool{
+    public static function checkEntrepriseExist($enterprise_email): bool
+    {
 
         try {
 
@@ -266,37 +270,68 @@ class Entreprise
     }
 
     public static function lastFiveUsers(int $enterprise_id)
-{
-    try {
-        // Création d'un objet $db selon la classe PDO
-        $db = new PDO("mysql:host=localhost;dbname=" . DB_NAME, DB_USER, DB_PASS);
+    {
+        try {
+            // Création d'un objet $db selon la classe PDO
+            $db = new PDO("mysql:host=localhost;dbname=" . DB_NAME, DB_USER, DB_PASS);
 
-        // stockage de ma requete dans une variable
-        $sql = "SELECT *
+            // stockage de ma requete dans une variable
+            $sql = "SELECT *
                 FROM userprofil
                 NATURAL JOIN enterprise
                 WHERE enterprise_id = :enterprise_id
                 LIMIT 5"; // Spécifier le nombre de résultats à limiter
 
-        // je prepare ma requête pour éviter les injections SQL
-        $query = $db->prepare($sql);
+            // je prepare ma requête pour éviter les injections SQL
+            $query = $db->prepare($sql);
 
-        // on relie le paramètre :enterprise_id à sa valeur
-        $query->bindValue(':enterprise_id', $enterprise_id, PDO::PARAM_INT);
+            // on relie le paramètre :enterprise_id à sa valeur
+            $query->bindValue(':enterprise_id', $enterprise_id, PDO::PARAM_INT);
 
-        // on execute la requête
-        $query->execute();
+            // on execute la requête
+            $query->execute();
 
-        // on récupère le résultat de la requête dans une variable
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            // on récupère le résultat de la requête dans une variable
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        // on retourne le résultat
-        return $result;
-    } catch (PDOException $e) {
-        echo 'Erreur : ' . $e->getMessage();
-        return false;
+            // on retourne le résultat
+            return $result;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
+    public static function lastFiveTrajets(int $enterprise_id)
+    {
+        try {
+            // Création d'un objet $db selon la classe PDO
+            $db = new PDO("mysql:host=localhost;dbname=" . DB_NAME, DB_USER, DB_PASS);
+    
+            // stockage de ma requete dans une variable
+            $sql = "SELECT ride.*, userprofil.user_pseudo 
+            FROM ride 
+            INNER JOIN userprofil ON userprofil.user_id = ride.user_id 
+            WHERE enterprise_id = :enterprise_id";
+
+    
+            // je prepare ma requête pour éviter les injections SQL
+            $query = $db->prepare($sql);
+    
+            // on relie le paramètre :enterprise_id à sa valeur
+            $query->bindValue(':enterprise_id', $enterprise_id, PDO::PARAM_INT);
+    
+            // on execute la requête
+            $query->execute();
+    
+            // on récupère le résultat de la requête dans une variable
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+            // on retourne le résultat
+            return $result;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
     }
 }
-
-}
-
