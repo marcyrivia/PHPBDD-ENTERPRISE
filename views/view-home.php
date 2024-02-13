@@ -180,6 +180,7 @@
                                 <p class="user_pseudo"><?= $ride['user_pseudo'] ?></p>
                                 <p class="ride_date"><?= $ride['ride_date'] ?></p>
                                 <p class="ride_distance"><?= $ride['ride_distance'] ?>km</p>
+                                <p class="transport_type"><?= $ride['transport_type'] ?></p>
                             </div>
                         </div>
                         <?php endforeach; ?>
