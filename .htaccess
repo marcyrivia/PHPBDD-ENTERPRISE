@@ -1,12 +1,4 @@
 Options -Indexes
+
 ErrorDocument 403 http://phpbdd-enterprise.test/custom403.html
 ErrorDocument 404 http://phpbdd-enterprise.test/custom404.html
-
-<?php
-    echo "<p>Nom d'Entreprise : $enterprise_name</p>";
-    echo "<p>Adresse email : $enterprise_email</p>";
-    echo "<p>Nméro siret : $enterprise_siret</p>";
-    echo "<p>Adresse : $enterprise_adress</p>";
-    echo "<p>Ville : $enterprise_city</p>";
-    echo "<p>Code postal: $enterprise_zipcode</p>";
-    ?>

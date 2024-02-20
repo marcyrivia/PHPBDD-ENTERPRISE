@@ -1,5 +1,7 @@
 <?php
 
+use LDAP\Result;
+
 require_once "../config/config.php";
 
 class Entreprise
@@ -335,4 +337,102 @@ class Entreprise
             return false;
         }
     }
+
+    public static function allUsers(int $enterprise_id)
+    {
+        try {
+            // Création d'un objet $db selon la classe PDO
+            $db = new PDO("mysql:host=localhost;dbname=" . DB_NAME, DB_USER, DB_PASS);
+
+            // stockage de ma requete dans une variable
+            $sql = "SELECT *
+                FROM userprofil
+                NATURAL JOIN enterprise
+                WHERE enterprise_id = :enterprise_id"; // Spécifier le nombre de résultats à limiter
+
+            // je prepare ma requête pour éviter les injections SQL
+            $query = $db->prepare($sql);
+
+            // on relie le paramètre :enterprise_id à sa valeur
+            $query->bindValue(':enterprise_id', $enterprise_id, PDO::PARAM_INT);
+
+            // on execute la requête
+            $query->execute();
+
+            // on récupère le résultat de la requête dans une variable
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $json_result = json_encode($result);
+
+            // on retourne le résultat
+            return $json_result;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }  public static function blockUsers(int $user_id)
+    {
+        try {
+            // Création d'un objet $db selon la classe PDO
+            $db = new PDO("mysql:host=localhost;dbname=" . DB_NAME, DB_USER, DB_PASS);
+
+            // stockage de ma requete dans une variable
+            $sql = "UPDATE `userprofil` SET `user_validate` = 0 WHERE `user_id` = :user_id";
+
+            // je prepare ma requête pour éviter les injections SQL
+            $query = $db->prepare($sql);
+
+            // on relie le paramètre :enterprise_id à sa valeur
+            $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+
+            // on execute la requête
+            $query->execute();
+
+            // on récupère le résultat de la requête dans une variable
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            // on retourne le résultat
+            return $result;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    } 
+    
+    /*
+    *
+    *
+    * @param int $user_id
+    *
+    * @return bool
+    *
+    */
+    
+    
+    public static function activeUsers(int $user_id): bool 
+    {
+        try {
+            // Création d'un objet $db selon la classe PDO
+            $db = new PDO("mysql:host=localhost;dbname=" . DB_NAME, DB_USER, DB_PASS);
+
+            // stockage de ma requete dans une variable
+            $sql = "UPDATE `userprofil` SET `user_validate` = 1 WHERE `user_id` = :user_id";
+
+            // je prepare ma requête pour éviter les injections SQL
+            $query = $db->prepare($sql);
+
+            // on relie le paramètre :enterprise_id à sa valeur
+            $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+
+            // on execute la requête
+            $query->execute();
+
+
+            // on retourne le résultat
+            return true;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }  
 }

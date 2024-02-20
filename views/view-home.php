@@ -166,7 +166,7 @@
                         <?php endforeach; ?>
                     </div>
                     <div class="card-action">
-                        <a href="#" class="white-text">Détails</a>
+                        <a href="../controllers/controller-userList.php" class="white-text">Détails</a>
                     </div>
                 </div>
             </div>
