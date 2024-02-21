@@ -435,4 +435,36 @@ class Entreprise
             return false;
         }
     }  
+    public static function userBelong(int $user_id)
+    {
+        try {
+            // Création d'un objet $db selon la classe PDO
+            $db = new PDO("mysql:host=localhost;dbname=" . DB_NAME, DB_USER, DB_PASS);
+    
+            // stockage de ma requete dans une variable
+            $sql = "SELECT * FROM `userprofil` WHERE `user_id` = :user_id";
+
+    
+            // je prepare ma requête pour éviter les injections SQL
+            $query = $db->prepare($sql);
+    
+            // on relie le paramètre :enterprise_id à sa valeur
+            $query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    
+            // on execute la requête
+            $query->execute();
+    
+            // on récupère le résultat de la requête dans une variable
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+    
+            // on retourne le résultat
+            $json_result = json_encode($result);
+
+            return $json_result;
+        } catch (PDOException $e) {
+            echo 'Erreur : ' . $e->getMessage();
+            return false;
+        }
+    }
+
 }
